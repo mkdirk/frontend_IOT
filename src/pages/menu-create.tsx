@@ -33,7 +33,7 @@ export default function MenuCreatePage() {
         message: "ข้อมูลเมนูได้รับการเพิ่มเรียบร้อยแล้ว",
         color: "teal",
       });
-      navigate(`/menu/${response.data.id}`);
+      navigate(`/menu`);
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 422) {
