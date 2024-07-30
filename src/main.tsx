@@ -17,6 +17,7 @@ import BookCreatePage from "./pages/book-create";
 import Menu from "./pages/menu";
 import MenuCreatePage from "./pages/menu-create";
 import MenuByIdPage from "./pages/menu-by-id";
+import MenuEditbyId from "./pages/menu-edit-by-id";
 
 const theme = createTheme({
   primaryColor: "orange",
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
     path: "/menu/:menuId",
     element: <MenuByIdPage />,
   },
+  {
+    path: "/menu/:menuId/edit",
+    element: <MenuEditbyId />
+  }
 ]);
 
 if (import.meta.env.VITE_API_URL) {
