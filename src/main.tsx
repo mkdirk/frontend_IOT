@@ -18,6 +18,7 @@ import Menu from "./pages/menu";
 import MenuCreatePage from "./pages/menu-create";
 import MenuByIdPage from "./pages/menu-by-id";
 import MenuEditbyId from "./pages/menu-edit-by-id";
+import Staff from "./pages/staff";
 
 const theme = createTheme({
   primaryColor: "orange",
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/menu/:menuId/edit",
     element: <MenuEditbyId />
+  },
+  {
+    path: "/staff",
+    element: <Staff />
   }
 ]);
 
