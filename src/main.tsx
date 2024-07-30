@@ -53,7 +53,7 @@ const router = createBrowserRouter([
     element: <MenuCreatePage />,
   },
   {
-    path: "menu/:id",
+    path: "/menu/:menuId",
     element: <MenuByIdPage />,
   },
 ]);
