@@ -8,3 +8,8 @@ export interface Book {
   category: string;
   is_published: boolean;
 }
+export interface Menu {
+  id: number;
+  name: string;
+  price: number;
+}
