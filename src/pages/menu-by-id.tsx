@@ -1,22 +1,48 @@
-import { Alert, Button, Container, Divider } from "@mantine/core";
+import { Alert, Button, Container, Divider, Modal, NumberInput, TextInput } from "@mantine/core";
 import Layout from "../components/layout";
-import { Link, useParams } from "react-router-dom";
-import { NumberInput, TextInput } from "@mantine/core";
+import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import Loading from "../components/loading";
 import { IconAlertTriangleFilled, IconEdit } from "@tabler/icons-react";
 import { Menu } from "../lib/models";
+import axios from "axios";
+import { useState } from "react";
 
 export default function MenuByIdPage() {
   const { menuId } = useParams();
+  const { data: menu, error } = useSWR<Menu>(`/menu/${menuId}`);
+  const [quantity, setQuantity] = useState<number | undefined>(1);
+  const [note, setNote] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
-  const { data: menu, isLoading, error } = useSWR<Menu>(`/menu/${menuId}`);
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+      // Send the data to the server
+      const response = await axios.post(`/order`, {
+        menuId,
+        quantity,
+        note
+      });
+      console.log(response)
+      // Show success message
+      setModalMessage("Order placed successfully!");
+    } catch (error) {
+      // Show error message
+      console.log(error)
+      setModalMessage("Failed to place order. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setModalOpened(true);
+    }
+  };
 
   return (
     <>
       <Layout>
         <Container className="mt-4">
-          {/* You can use isLoading instead of !book */}
           {isLoading && !error && <Loading />}
           {error && (
             <Alert
@@ -34,43 +60,47 @@ export default function MenuByIdPage() {
               <p className="italic text-neutral-500 mb-4">ราคาแก้วละ {menu.price}</p>
               <div className="grid grid-cols-1 lg:grid-cols-3">
                 <NumberInput
-                    label="จำนวนแก้วที่ต้องการสั่ง"
-                    placeholder="ขั้นต่ำ 1"
-                    min={1}
+                  label="จำนวนแก้วที่ต้องการสั่ง"
+                  placeholder="ขั้นต่ำ 1"
+                  min={1}
+                  value={quantity}
+                  onChange={(value) => {
+                    // Convert value to number if it is a string
+                    setQuantity(typeof value === 'number' ? value : parseFloat(value) || undefined);
+                  }}
                 />
                 <TextInput
-                    label="หมายเหตุ"
-                    placeholder="หมายเหตุ"
+                  label="หมายเหตุ"
+                  placeholder="หมายเหตุ"
+                  value={note}
+                  onChange={(event) => setNote(event.currentTarget.value)}
                 />
-                
               </div>
 
               <Divider className="mt-4" />
 
-                < Button
-                    color="green"
-                    size="s"
-                    component={Link}
-                    to={`/menu/${menu.id}/edit`}
-                    className="mt-4"
-                    leftSection={<IconEdit />}
-                >
-                    สั่งเลย!
-                </Button>
-              {/* <Button
-                color="blue"
-                size="xs"
-                component={Link}
-                to={`/books/${book.id}/edit`}
+              <Button
+                color="green"
+                size="s"
+                onClick={handleSubmit}
                 className="mt-4"
                 leftSection={<IconEdit />}
+                disabled={isLoading}
               >
-                แก้ไขข้อมูลหนังสือ
-              </Button> */}
+                สั่งเลย!
+              </Button>
             </>
           )}
         </Container>
       </Layout>
+
+      <Modal
+        opened={modalOpened}
+        onClose={() => setModalOpened(false)}
+        title="Order Status"
+      >
+        {modalMessage}
+      </Modal>
     </>
   );
 }
