@@ -15,6 +15,7 @@ import BookEditById from "./pages/book-edit-by-id";
 import { ModalsProvider } from "@mantine/modals";
 import BookCreatePage from "./pages/book-create";
 import Menu from "./pages/menu";
+import MenuCreatePage from "./pages/menu-create";
 
 const theme = createTheme({
   primaryColor: "orange",
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
     path: "/menu",
     element: <Menu />,
   },
+  {
+    path: "/menu/create",
+    element: <MenuCreatePage />,
+  }
 ]);
 
 if (import.meta.env.VITE_API_URL) {
