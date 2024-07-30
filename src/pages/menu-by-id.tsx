@@ -31,7 +31,7 @@ export default function MenuByIdPage() {
           {!!menu && (
             <>
               <h1>{menu.name}</h1>
-              <p className="italic text-neutral-500 mb-4">{menu.price}</p>
+              <p className="italic text-neutral-500 mb-4">ราคาแก้วละ {menu.price}</p>
               <div className="grid grid-cols-1 lg:grid-cols-3">
                 <NumberInput
                     label="จำนวนแก้วที่ต้องการสั่ง"
