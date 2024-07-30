@@ -57,6 +57,7 @@ export default function BooksPage() {
                 /> */}
                 <div className="p-4">
                   <h2 className="text-lg font-semibold line-clamp-2">{menuMap.get(order.order_id)}</h2>
+                  <p className="text-xs text-neutral-500">จำนวนที่สั่ง {order.quantity}</p>
                   <p className="text-xs text-neutral-500">ราคารวม {order.total_price}</p>
                   <p className="text-xs text-neutral-500">หมายเหตุ {order.note}</p>
                 </div>
